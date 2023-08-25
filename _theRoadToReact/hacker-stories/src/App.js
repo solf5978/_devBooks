@@ -63,7 +63,7 @@ const aha = () => {
 }
 
 function getTitle(title) {
-  return title;
+  return null;
 }      
 
 const welcome = {
@@ -86,16 +86,30 @@ function App() {
       {list.map( function(listItem) {
         return <h2>{listItem.points}</h2>;
       })}
-      console.log(aha)
       <h1> Apply Object Key To React</h1>
       {list.map(item => { return (
         <div key={item.objectID}>
           {item.title}
-        </div>
-      );
-      })}
+        </div>);        } 
+                ) 
+      }
+
+      <h1> More Than One Item </h1>
+      {list.map( function(item) { 
+        return (
+        <div key={item.objectID}>
+          <span>
+            <a href={item.url}>{item.title}</a>
+          </span>
+          <span>{item.author}</span>
+          <span>{item.num_comments}</span>
+          <span>{item.points}</span>;
+        </div> );
+          })}
+        
+
       <label htmlFor="search"> Search: </label>
-      <input- id="search" type="text" />
+      <input id="search" type="text" />
     </div>
   );
 }
