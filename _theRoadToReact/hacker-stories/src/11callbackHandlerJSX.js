@@ -33,6 +33,20 @@ const ListAnother = () =>
     )
   )
 
+  const Search = props => {
+    return (
+      <div>
+        <label htmlFor='search'>Search: </label>
+        <input id='search' type='text' onChange={props.onSearch}/>
+
+        <p>
+          Searching For <strong> {searchTerm} </strong>
+        </p>
+      
+      </div>
+    )
+  };
+
 
 const App = () => {
   // Main Actions Go Here
@@ -53,30 +67,30 @@ const App = () => {
       points: 5,
       objectID: 1,},
   ];
-
   const [searchTerm, setSearchTerm] = React.useState('');
 
-  const handleChange = event => {
-    setSearchTerm(event.target.value);
+  const handleSearch = event => {
+    setSearchTerm(event.target.value)
   }
+
+  const searchedStories = stories.filter( function(story) {
+    return story.title.includes(searchTerm)
+  })
 
   return (
     <div>
       <h1> My Hacker Stories</h1>
 
-      <label htmlFor='search'>Search: </label>
-      <input id='search' type='text' onChange={handleChange}/>
+      <Search onSearch={handleSearch} />
 
-      <p>
-        Searching For <strong> {searchTerm} </strong>
-      </p>
-      <hr />
       {/* Creating an Instance of List component */}
       <List list={stories} />
       {/* Creating another Instance of List component */}
       <List list={stories} />
       {/* Creating an Instance of ListAlternative component */}
       <ListAlternative list={stories} />
+
+      <List list={searchedStories} />
       
     </div>
   );
