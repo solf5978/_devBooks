@@ -6,9 +6,8 @@ import './App.css';
 import { getTTFB } from "web-vitals";
 
 // With Block Body
-const List = () => {
-  return list.map( item => {
-    return (
+const List = props => {
+  props.list.map( item => {
       <div key={item.objectID}>
         <span>
           <a href={item.url}>{item.title}</a>
@@ -17,7 +16,6 @@ const List = () => {
         <span>{item.num_comments}</span>
         <span>{item.points}</span>
       </div>
-    )
   })
 }
 
