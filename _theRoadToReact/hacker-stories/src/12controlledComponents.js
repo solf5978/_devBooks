@@ -37,7 +37,7 @@ const ListAnother = () =>
     return (
       <div>
         <label htmlFor='search'>Search: </label>
-        <input id='search' type='text' onChange={props.onSearch}/>
+        <input id='search' type='text' value={props.search} onChange={props.onSearch}/>
 
         <p>
           Searching For <strong> {searchTerm} </strong>
@@ -83,7 +83,7 @@ const App = () => {
     <div>
       <h1> My Hacker Stories</h1>
 
-      <Search onSearch={handleSearch} />
+      <Search Search={searchTerm} onSearch={handleSearch} />
 
       {/* Creating an Instance of List component */}
       <List list={stories} />
