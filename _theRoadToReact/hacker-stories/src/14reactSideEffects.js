@@ -58,7 +58,7 @@ const ItemNest = ({
 
 const ListSR = ({ list }) =>
   list.map(item => (
-    <Item
+    <ItemSR
       key={item.objectID}
       title={item.title}
       url={item.url}
@@ -82,7 +82,7 @@ const ListSR = ({ list }) =>
 // 2. Spread and Rest Operators
 
 const ListSR2 = ({ list }) =>
-    list.map(item => <Item key={item.objectID} {...item} />)
+    list.map( item => <ItemSR2 key={item.objectID} {...item} />)
 
 const ItemSR2 = ({ title, url, author, num_comments, points }) => (
     <div>
@@ -97,7 +97,7 @@ const ItemSR2 = ({ title, url, author, num_comments, points }) => (
 
 // Final Revisied
 const ListSRO = ({ list }) =>
-  list.map(({objectID, ...item}) => <Item key={objectID} {...item} />)
+  list.map(({objectID, ...item}) => <ItemSRO key={objectID} {...item} />)
 
 const ItemSRO = ({ title, url, author, num_comments, points }) => (    
   <div>
@@ -111,8 +111,8 @@ const ItemSRO = ({ title, url, author, num_comments, points }) => (
 )
 
 
-// More Concise
-const ListAnother = () => 
+// Initial Concise
+const ListAnother = ({ list }) => 
   list.map( item => (
       <div key={item.objectID}>
         <span>
@@ -160,8 +160,12 @@ const App = () => {
       points: 5,
       objectID: 1,},
   ];
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  const [searchTerm, setSearchTerm] = React.useState(localStorage.getItem('search') || 'Placeholder');
 
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm)
+  }, [searchTerm])
+  
   const handleSearch = event => {
     setSearchTerm(event.target.value)
   }
