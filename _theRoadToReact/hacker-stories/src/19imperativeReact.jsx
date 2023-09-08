@@ -201,27 +201,62 @@ const ListAnother = ({ list }) =>
 //    </>
 //  )
 //
-// Improve Flexibility w/ Dedicated Prop
-  const InputWithLabel = ({ 
-    id, 
-    type = 'text',
-    value, 
-    onInputChange,
-    isFocused,
-    children, }) => (
-    <>
-      <label htmlFor={id}>{children}</label>
-      &nbsp;
-      <input
-        id={id}
-        type={type}
-        value={value}
-        autoFocus={isFocused} // Also a shortHand
-        onChange={onInputChange}
-      />
-    </>
-  )
-const App = () => {
+// // Improve Flexibility w/ Dedicated Prop
+//   const InputWithLabel = ({ 
+//     id, 
+//     type = 'text',
+//     value, 
+//     onInputChange,
+//     isFocused,
+//     children, }) => (
+//     <>
+//       <label htmlFor={id}>{children}</label>
+//       &nbsp;
+//       <input
+//         id={id}
+//         type={type}
+//         value={value}
+//         autoFocus={isFocused} // Also a shortHand
+//         onChange={onInputChange}
+//       />
+//     </>
+//   )
+
+// Refactor Back To Imperative
+   const InputWithLabel = ({ 
+     id, 
+     type = 'text',
+     value, 
+     onInputChange,
+     isFocused, }) => {
+     const inputRef = React.useRef();
+
+     React.useEffect(() => {
+        if (isFocused && inputRef.current) {
+            inputRef.current.focus()
+        }
+    }, [isFocused])
+
+    return (
+     <>
+       <label htmlFor={id}>{children}</label>
+       &nbsp;
+        {}
+       <input
+         ref={inputRef}
+         id={id}
+         type={type}
+         value={value}
+         autoFocus={isFocused} // Also a shortHand
+         onChange={onInputChange}
+       />
+     </>
+    )
+        }
+
+
+
+ const App = () => {
   // Main Actions Go Here
 
   const stories = [
