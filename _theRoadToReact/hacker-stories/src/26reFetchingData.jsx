@@ -426,9 +426,12 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
       isError: false, })
 
   React.useEffect(() => {
+
+    if ( searchTerm === '') return;
+
     dispatchStories({ type: 'STORIES_FETCH_INIT'})
 
-    fetch(`${API_ENDPOINT}react`)
+    fetch(`${API_ENDPOINT}${searchTerm}`)
         .then((response) => response.json())
         .then((result) => {
           dispatchStories({
@@ -506,6 +509,15 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
       ) : (
         <ListInlineHandler
         list = {searchedStories}
+        onRemoveItem={handleRemoveStory}
+        />
+      )}
+
+      {stories.isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ListInlineHandler
+        list = {stories.data}
         onRemoveItem={handleRemoveStory}
         />
       )}
