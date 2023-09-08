@@ -187,7 +187,28 @@ const ListAnother = ({ list }) =>
 
         return [value, setValue]
     }
-  const InputWithLabel = ({ id, type = 'text', value, onInputChange, children, }) => (
+//  const InputWithLabel = ({ id, type = 'text', value, onInputChange, children, }) => (
+//    <>
+//      <label htmlFor={id}>{children}</label>
+//      &nbsp;
+//      <input
+//        id={id}
+//        type={type}
+//        value={value}
+//        autoFocus={true}
+//        onChange={onInputChange}
+//      />
+//    </>
+//  )
+//
+// Improve Flexibility w/ Dedicated Prop
+  const InputWithLabel = ({ 
+    id, 
+    type = 'text',
+    value, 
+    onInputChange,
+    isFocused,
+    children, }) => (
     <>
       <label htmlFor={id}>{children}</label>
       &nbsp;
@@ -195,11 +216,11 @@ const ListAnother = ({ list }) =>
         id={id}
         type={type}
         value={value}
+        autoFocus={isFocused} // Also a shortHand
         onChange={onInputChange}
       />
     </>
   )
-  
 const App = () => {
   // Main Actions Go Here
 
