@@ -377,6 +377,16 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
 
   const [searchTerm, setSearchTerm] = useStorageState('search', 'React')
   const [stories, setStories] = React.useState([])
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    setIsLoading(true)
+
+    getAsyncStories().then((result) => {
+        setStories(result.data.stories)
+        setIsLoading(false)
+    })
+  }, [])
 
   React.useEffect(() => {
     getAsyncStories().then(result => {
@@ -425,6 +435,15 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
       <List list={searchedStories} />
       <ListInlineHandler list={searchedStories} onRemoveItem={handleRemoveStory} />
       
+
+    {isLoading ? (
+        <p>Loading...</p> )
+            : (
+            <ListInlineHandler 
+            list={searchedStories}
+            onRemoveItem={handleRemoveStory} />
+        )}
+
     </div>
   );
 }
