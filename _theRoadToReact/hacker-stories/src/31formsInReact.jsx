@@ -177,6 +177,7 @@ const List = ({ list, onRemoveItem }) => (
   </ul>
 );
 
+
 const Item = ({ item, onRemoveItem }) => (
   <li>
     <span>
