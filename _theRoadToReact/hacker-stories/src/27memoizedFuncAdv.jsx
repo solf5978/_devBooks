@@ -425,7 +425,7 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
       isLoading: false,
       isError: false, })
 
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
 
     if (!searchTerm) return;
 
@@ -443,10 +443,14 @@ const ItemOnRemove = ({ item, onRemoveItem }) => (
   }, [searchTerm])
 
   React.useEffect(() => {
-    getAsyncStories().then(result => {
-        setStories(result.data.stories)
-    })
-  }, [])
+    handleFetchStories()
+  }, [handleFetchStories])
+
+  // React.useEffect(() => {
+  //   getAsyncStories().then(result => {
+  //       setStories(result.data.stories)
+  //   })
+  // }, [])
 
   const handleSearch = event => {
     setSearchTerm(event.target.value)
