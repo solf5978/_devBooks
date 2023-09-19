@@ -4,6 +4,8 @@ import axios from 'axios'
 import logo from './logo.svg';
 import './App.css';
 
+const event = new Event()
+
 const storiesReducer = (state, action) => {
   switch (action.type) {
     case 'STORIES_FETCH_INIT':
@@ -48,6 +50,30 @@ const useStorageState = (key, initialState) => {
 
   return [value, setValue];
 };
+
+const SearchForm = ({
+    searchTerm,
+    onSearchInput,
+    onSearchSubmit,
+}) => (
+    <form onSubmit={handleSearchSubmit}>
+    <InputWithLabel
+        id="search"
+        value={searchTerm}
+        isFocused
+        onInputChange={onSearchInput}
+        >
+        <strong>Search:</strong>
+    </InputWithLabel>
+
+    <button
+        type="button"
+        disabled={!searchTerm}
+        >
+        Submit
+    </button>
+  </form>
+)
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
@@ -96,31 +122,22 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (event) => {
     setUrl(`${API_ENDPOINT}${searchTerm}`);
+
+    event.preventDefault()
   };
+
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        isFocused
-        onInputChange={handleSearchInput}
-      >
-        <strong>Search:</strong>
-      </InputWithLabel>
-
-      <button
-        type="button"
-        disabled={!searchTerm}
-        onClick={handleSearchSubmit}
-      >
-        Submit
-      </button>
-
+      <SearchForm 
+        searchTerm={searchTerm}
+        onSearchInput={handleSearchInput}
+        onSearchSubmit={handleSearchSubmit}
+      />
       <hr />
 
       {stories.isError && <p>Something went wrong ...</p>}
