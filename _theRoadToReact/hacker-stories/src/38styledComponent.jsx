@@ -54,6 +54,20 @@ const StyledColumn = styled.span`
     width: ${(props) => props.width};
 `
 
+const StyledButton = styled.button`
+    background: transparent;
+    border: 1px solid #171212;
+    padding: 15px;
+    cursor: pointer;
+
+    transition: all 0.1 ease-in;
+
+    &:hover {
+        background: #171212;
+        color: #FFFFFF;
+    }
+`
+
 const App = () => {
     return (
         <StyledContainer>
