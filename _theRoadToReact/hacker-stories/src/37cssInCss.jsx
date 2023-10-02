@@ -23,6 +23,21 @@ const Item = ({ item, onRemoveItem }) => (
     </li>
 )
 
+const SearchForm = ({}) => (
+    <form onSubmit={onSearchSubmit} className={styles.searchForm}>
+        <InputWithLabel>
+            <strong>Search: </strong>
+        </InputWithLabel>
+
+        <button
+            type="submit"
+            disabled={!searchTerm}
+            className={`${styles.button} ${styles.buttonLarge}`}>
+            Submit
+        </button>
+    </form>
+)
+
 const App = () => {
 
     return (
