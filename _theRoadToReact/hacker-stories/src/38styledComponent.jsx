@@ -68,6 +68,20 @@ const StyledButton = styled.button`
     }
 `
 
+const StyledButtonSmall = styled(StyledButton)`
+    padding: 5px;
+`
+
+const StyledButtonLarge = styled(StyledButton)`
+    padding: 10px;
+`
+
+const StyledSearchForm = styled.form`
+    padding: 10px 0 20px 0;
+    display: flex;
+    align-items: baseline;
+`
+
 const App = () => {
     return (
         <StyledContainer>
