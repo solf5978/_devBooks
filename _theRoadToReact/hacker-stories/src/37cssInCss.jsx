@@ -38,6 +38,26 @@ const SearchForm = ({}) => (
     </form>
 )
 
+const InputWithLabel = ({ }) => {
+
+    return (
+        <>
+            <label htmlFor={id} className={styles.label}>
+                {children}
+            </label>
+            &nbsp;
+            <input
+            ref={inputRef}
+            id={id}
+            type={type}
+            value={value}
+            onChange={onInputChange}
+            className={styles.input}
+            />
+        </>
+    )
+}
+
 const App = () => {
 
     return (
