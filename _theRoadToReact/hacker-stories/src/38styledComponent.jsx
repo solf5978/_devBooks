@@ -21,18 +21,36 @@ const Item = ({ item, onRemoveItem }) => (
     </StyledItem>
     )
 
- const SearchForm = ({ ... }) => (
+ const SearchForm = ({}) => (
     <StyledSearchForm onSubmit={onSearchSubmit}>
         <InputWithLabel
         id="search"
         value={searchTerm}
         isFocused
-        onInputChange={onSearchInput}
-        >
+        onInputChange={onSearchInput}>
+        <strong>Search:</strong>
         </InputWithLabel>
+
+        <StyledButtonLarge type="submit" disabled={!searchTerm}>
+            Submit
+        </StyledButtonLarge>
     </StyledSearchForm>
  )
 
+ const InputWithLabel = ({}) => {
+    return (
+        <>
+            <StyledLabel htmlFor={id}>{children}</StyledLabel>
+            &nbsp;
+            <StyledInput
+                ref={inputRef}
+                id={id}
+                type={type}
+                value={value}
+                onChange={onInputChange} />
+        </>
+    )
+ }
 
 // Styled Components
 const StyledContainer = styled.div`
@@ -95,6 +113,21 @@ const StyledSearchForm = styled.form`
     padding: 10px 0 20px 0;
     display: flex;
     align-items: baseline;
+`
+
+const StyledLabel = styled.label`
+    border-top: 1px solid #171212;
+    border-left: 1px solid #171212;
+    padding-left: 5px;
+    font-size: 1.5rem;
+`
+
+const StyledInput = styled.input`
+    border: none;
+    border-bottom: 1px solid #171212;
+    background-color: transparent;
+
+    font-size: 1.5rem;
 `
 
 const App = () => {
