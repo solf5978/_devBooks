@@ -2,6 +2,7 @@ import * as React from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
+// HTMl Elements
 const Item = ({ item, onRemoveItem }) => (
     <StyledItem>
         <StyledColumn width="40%">
@@ -20,6 +21,20 @@ const Item = ({ item, onRemoveItem }) => (
     </StyledItem>
     )
 
+ const SearchForm = ({ ... }) => (
+    <StyledSearchForm onSubmit={onSearchSubmit}>
+        <InputWithLabel
+        id="search"
+        value={searchTerm}
+        isFocused
+        onInputChange={onSearchInput}
+        >
+        </InputWithLabel>
+    </StyledSearchForm>
+ )
+
+
+// Styled Components
 const StyledContainer = styled.div`
     height: 100vw;
     padding: 20px;
