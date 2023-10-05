@@ -49,7 +49,9 @@ const List = React.memo(
 const App = () => {
     console.log('B:App')
 
-    const sumComments = getSumComments(stories)
+    const sumComments = React.useMemo(() => getSumComments(stories),
+    [stories]
+    )
 
     React.useEffect(() => {
         console.log('How Many TImes Do I Log')
