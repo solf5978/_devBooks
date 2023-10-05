@@ -94,3 +94,93 @@ const Item: React.FC<ItemProps> = ({
 
     </li>
 )
+
+type Stories = Story[];
+
+type ListProps = {
+    list: Stories
+    onRemoveItem: (item: Story ) => void
+}
+
+const List: React.FC<ListProps> = ({
+    list,
+    onRemoveItem
+}) => (
+    <ul>
+
+    </ul>
+)
+
+const App = () => {
+
+    const handleRemoveStory = (item: Story) => {
+        dispatchStories({
+            type: 'REMOVE_STORY',
+            payload: item,
+        })
+    }
+}
+
+type StoriesState = {
+    data: Stories
+    isLoading: boolean
+    isError: boolean
+}
+
+// type StoriesAction = {
+//     type: string
+//     payload: any
+// }
+
+const storiesReducer = (
+    state: StoriesState,
+    action: StoriesAction,
+) => {
+
+}
+
+type StoriesFetchInitAction = {
+    type: 'STORIES_FETCH_INIT'
+}
+
+type StoriesFetchSuccessAction = {
+    type: 'STORIES_FETCH_SUCCESS'
+    payload: Stories
+}
+
+type StoriesFetchFailureAction = {
+    type: 'STORIES_FETCH_FAILURE'
+}
+
+type StoriesRemoveAction = {
+    type: 'REMOVE_STORY'
+    payload: Story
+}
+
+type StoriesAction = 
+    StoriesFetchInitAction
+    | StoriesFetchSuccessAction
+    | StoriesFetchFailureAction
+    | StoriesRemoveAction
+
+const storiesReducer = (
+    state: StoriesState,
+    action: StoriesAction
+) => {
+
+}
+
+type SearchFormProps = {
+    searchTerm: string
+    onSearchInput: (event: React.ChangeEvent<HTMLInputElement>) => void
+    onSearchSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+}
+
+const SearchForm: React.FC<SearchFormProps> = ({
+    searchTerm,
+    onSearchInput,
+    onSearchSubmit,
+}) => (
+    <p></p>
+)
+
