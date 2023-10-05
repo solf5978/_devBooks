@@ -119,6 +119,20 @@ const App = () => {
             payload: item,
         })
     }
+
+    const handleSearchInput = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setSearchTerm(event.target.value)
+    }
+
+    const handleSearchSubmit = (
+        event: React.FormEvent<HTMLFormElement>
+    ) => {
+        setUrl(`${API_ENDPOINT}${searchTerm}`)
+        event.preventDefault()
+
+    }
 }
 
 type StoriesState = {
@@ -184,3 +198,32 @@ const SearchForm: React.FC<SearchFormProps> = ({
     <p></p>
 )
 
+const InputWithLabel = ({}) => {
+    const inputRef = React.useRef<HTMLInputElement>(null)
+
+    React.useEffect(() => {
+        if (isFocuesd && inputRef.current) {
+            inputRef.current.focus()
+        }
+    }, [isFocused])
+}
+
+type InputWithLabelProps = {
+    id: string
+    value: string
+    type?: string
+    onInputChange: (event: React.ChangeEvent<HTMLInputElement) => void
+    isFocused?: boolean
+    children: React.ReactNode
+}
+
+const InputWithLabel: React.FC<InputWithLabelProps> = ({
+    id,
+    value,
+    type = 'text',
+    onInputChange,
+    isFocused,
+    children,
+}) => {
+    
+}
