@@ -32,6 +32,15 @@ function ReHelloWorld() {
   )
 }
 
+function SpanComponent() {
+  return (
+    React.createElement)
+    'span',
+    {className: 'song-name' },
+    props.song.name
+  )
+}
+
 // Syntax
 // ReactDOM.render([React Element], [DOM Element])
 
