@@ -18,27 +18,39 @@ import { createRoot } from 'react-dom/client'
 
 function HelloWorld() {
   return (
-    <div>Hello World</div>
+    <div>
+      <Hello />
+      <World />!
+    </div>
   )
 }
 
+function Hello() {
+  return <span> Hello</span>
+}
+
+function World() {
+  return <span> World</span>
+}
+
 function ReHelloWorld() {
-  return (
+  return 
     React.createElement(
       'div',
       {},
       'Hello World'
     )
-  )
+  
 }
 
-function SpanComponent() {
-  return (
-    React.createElement)
-    'span',
-    {className: 'song-name' },
-    props.song.name
-}
+// function SpanComponent() {
+//   return 
+//     React.createElement(
+//     'span',
+//     {className: 'song-name' },
+//     props.song.name
+//     )
+// }
 
 // Syntax
 // ReactDOM.render([React Element], [DOM Element])
@@ -46,4 +58,4 @@ function SpanComponent() {
 const domNode = document.getElementById('root')
 const root = createRoot(domNode)
 
-root.render(<ReHelloWorld />)
+root.render(<HelloWorld />)
