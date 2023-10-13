@@ -38,7 +38,6 @@ function SpanComponent() {
     'span',
     {className: 'song-name' },
     props.song.name
-  )
 }
 
 // Syntax
