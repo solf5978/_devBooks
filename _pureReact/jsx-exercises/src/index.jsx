@@ -74,6 +74,7 @@ function WhiteSpace() {
 }
 
 function ReHelloWorld() {
+  alert('12234141341')
   return 
     React.createElement(
       'div',
