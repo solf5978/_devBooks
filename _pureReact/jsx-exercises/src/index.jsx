@@ -12,6 +12,8 @@ root.render(
   <>
   <MyThing />
   <WhiteSpace />
+  <Greeting />
+  <ReHelloWorld />
   </>
 );
 
@@ -54,8 +56,42 @@ function WhiteSpace() {
       </div>
       <div className="newline">
         NewLine
+
+
+
+
+
+
         Test
+
+      </div>
+      <div>
+        &nbsp;Non-Breaking
+        &nbsp;Space&nbsp;
       </div>
     </div>
+  )
+}
+
+function ReHelloWorld() {
+  return 
+    React.createElement(
+      'div',
+      {},
+      'Hello World'
+    )
+}
+
+function Greeting() {
+  let username = "root"
+  // username = undefined
+  // username = null
+  // username = false
+
+  return (
+    <p className="Greeting">
+      {username && 'Greeting, username'}
+      {!username && 'Not logged in'}
+    </p>
   )
 }
