@@ -40,7 +40,6 @@ function ReHelloWorld() {
       {},
       'Hello World'
     )
-  
 }
 
 // function SpanComponent() {
