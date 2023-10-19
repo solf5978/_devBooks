@@ -82,3 +82,20 @@ const LikeButton = () => (
 const MoreOptionsButton = () => (
   <i className="fa fa-ellipsis-h more-options-button" />
 )
+
+function Dave() {
+  const firstName = "Dave"
+  const lastName = "Ceddia"
+  return (
+    <Person
+      className='person'
+      age={33}
+      name={firstName + '' + lastName} />
+  )
+}
+
+function HelloProps(props) {
+  return (
+    <span>Hello, {props.name}</span>
+  )
+}
