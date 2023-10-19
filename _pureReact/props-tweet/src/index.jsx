@@ -44,8 +44,9 @@ let testTweet = {
 
 
 function Avatar({hash}) {
+  let src=`https://www.gravatar.com/avatar/${hash}`
   return (
-    <img src="https://www.gravatar.com/avatar/${hash}"
+    <img src={url}
          className="avatar"
          alt="avatar" />
   )
