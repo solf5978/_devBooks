@@ -4,22 +4,17 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <>
-    <Tweet />
-  </>
-);
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
 
-function Tweet() {
+function Tweet({ tweet }) {
   return (
     <div className="tweet">
-      <Avatar />
+      <Avatar hash={tweet.gravatar} />
       <div className="content">
         <NameWithHandle />
         <Message />
@@ -34,9 +29,23 @@ function Tweet() {
   )
 }
 
-function Avatar() {
+let testTweet = {
+  message: "Something about dogs.",
+  gravatar:"Knight",
+  author: {
+    handle: "dogguy",
+    name: "imma dog person",
+  },
+  likes: 2,
+  retweets: 0,
+  timestamp: "2020-10-15"
+}
+
+
+
+function Avatar({hash}) {
   return (
-    <img src="https://www.gravatar.com/avatar/nothing"
+    <img src="https://www.gravatar.com/avatar/${hash}"
          className="avatar"
          alt="avatar" />
   )
@@ -99,3 +108,11 @@ const MoreOptionsButton = () => (
 //     <span>Hello, {props.name}</span>
 //   )
 // }
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <>
+    <Tweet tweet={testTweet}/>
+  </>
+);
