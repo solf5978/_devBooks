@@ -22,8 +22,8 @@ function Tweet({ tweet }) {
         <Message text={tweet.message} />
         <div className="buttons">
           <ReplyButton />
-          <RetweetButton />
-          <LikeButton />
+          <RetweetButton count={tweet.retweets} />
+          <LikeButton count={tweet.likes} />
           <MoreOptionsButton />
         </div>
       </div>
@@ -86,11 +86,11 @@ const ReplyButton = () => (
   <i className="fa fa-reply reply-button" />
 )
 
-const RetweetButton = () => (
+const RetweetButton = ({ count }) => (
   <i className="fa fa-retweet retweet-button" />
 )
 
-const LikeButton = () => (
+const LikeButton = ({ count }) => (
   <i className="fa fa-heart like-button" />
 )
 
