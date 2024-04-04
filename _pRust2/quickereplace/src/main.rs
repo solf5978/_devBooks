@@ -21,7 +21,7 @@ fn parse_args() -> Arguments {
     if args.len() != 4 {
         print_usage();
         eprintln!(
-            "{} - numbers of arguments expected 4 , only{}",
+            "{} - numbers of arguments expected 4 , only {} presented",
             "Error:".red().bold(),
             args.len()
         );
@@ -38,5 +38,5 @@ fn parse_args() -> Arguments {
 
 fn main() {
     let args = parse_args();
-    println!(":?}", args);
+    println!("{:?}", args);
 }
