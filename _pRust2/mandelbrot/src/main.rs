@@ -1,4 +1,5 @@
 use num::Complex;
+use std::str::FromStr;
 // struct defined inside num::Complex
 // struct Complex<T> {
 //     re: T,
@@ -25,6 +26,16 @@ fn escape_time(c: Complex<f64>, limit: usize) -> Option<usize> {
         z = z * z + c;
     }
     None
+}
+
+fn parse_pair<T: FromStr>(s: &str, sep: char) -> Option<(T, T)> {
+    match s.find(sep) {
+        None => None,
+        Some(index) => match (T::from_str(&s[..index]), T::from_str(&s[index + 1..])) {
+            (Ok(l), Ok(r)) => Some((l, r)),
+            _ => None,
+        },
+    }
 }
 
 fn main() {
