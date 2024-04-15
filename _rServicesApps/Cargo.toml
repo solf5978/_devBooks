@@ -15,4 +15,8 @@ edition = "2021"
 name = "tcpserver"
 path = "tcpserver/src/main.rs"
 
+[[bin]]
+name = "tcpclient"
+path = "tcpclient/src/main.rs"
+
 [dependencies]
