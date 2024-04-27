@@ -1,3 +1,5 @@
+[workspace]
+members = []
 [package]
 name = "_rWebRocket"
 version = "0.1.0"
@@ -10,3 +12,7 @@ edition = "2021"
 [[bin]]
 name = "01_hello_world"
 path = "src/bin/01_hello_world.rs"
+
+[[bin]]
+name = "02_complex_program"
+path = "src/bin/02_complex_program.rs"
