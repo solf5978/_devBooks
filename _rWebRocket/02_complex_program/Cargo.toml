@@ -7,6 +7,10 @@ edition = "2021"
 
 [dependencies]
 
+[lib]
+name = "complex_program"
+path = "src/lib.rs"
+
 [[bin]]
 name = "complex_program"
-path = "main.rs"
+path = "src/main.rs"

@@ -1,5 +1,4 @@
-pub mod encryptor;
-use encryptor::Encryptable;
+use complex_program::encryptor::{rot13, Encryptable};
 // use crate::encryptor::Encryptable;
 use std::io;
 
@@ -11,6 +10,6 @@ fn main() {
         .expect("Cannot read input");
     println!(
         "Your encrypted string: {}",
-        encryptor::rot13::Rot13(user_input).encrypt()
+        rot13::Rot13(user_input).encrypt()
     );
 }
