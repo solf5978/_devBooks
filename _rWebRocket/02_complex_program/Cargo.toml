@@ -1,6 +1,5 @@
-workspace = { members = ["01_hello_world", "02_complex_program"] }
 [package]
-name = "_rWebRocket"
+name = "complex_program"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,3 +7,6 @@ edition = "2021"
 
 [dependencies]
 
+[[bin]]
+name = "complex_program"
+path = "main.rs"
