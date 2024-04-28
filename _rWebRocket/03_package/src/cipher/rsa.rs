@@ -27,7 +27,11 @@ impl Rsa {
 
 impl super::Cipher for Rsa {
     fn original_string(&self) -> Result<String, Box<dyn Error>> {
-        unimplemented!();
+        let decoded_data = base64::decode(&self.data)?;
+        let decrypted_data = self
+            .private_key
+            .decrypt(PaddingScheme::new_pkcs1v15_encrypt(), &decoded_data)?;
+        Ok(String::from_utf8(decrypted_data)?)
     }
 
     fn encrypted_string(&self) -> Result<String, Box<dyn Error>> {
