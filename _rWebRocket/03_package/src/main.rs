@@ -1,4 +1,4 @@
-use package::cipher::rot13;
+use package::cipher::{rot13, Cipher};
 // use crate::encryptor::Encryptable;
 use std::io;
 
@@ -10,6 +10,6 @@ fn main() {
         .expect("Cannot read input");
     println!(
         "Your encrypted string: {}",
-        rot13::Rot13(user_input).encrypt()
+        rot13::Rot13(user_input).encrypted_string()
     );
 }
