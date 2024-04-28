@@ -1,10 +1,9 @@
-workspace = { members = ["01hello_world", "02complex_program", "03package", "04hello_rocket", "05hello_rocket_async"] }
 [package]
-name = "_rWebRocket"
+name = "hello_rocket_async"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-
+rocket = "0.5.0-rc.1"
