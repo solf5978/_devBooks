@@ -1,6 +1,5 @@
-workspace = { members = ["01_hello_world", "02_complex_program", "03_package"] }
 [package]
-name = "_rWebRocket"
+name = "package"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,3 +7,10 @@ edition = "2021"
 
 [dependencies]
 
+[lib]
+name = "package"
+path = "src/lib.rs"
+
+[[bin]]
+name = "package"
+path = "src/main.rs"
