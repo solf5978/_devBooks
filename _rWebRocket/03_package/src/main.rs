@@ -1,4 +1,4 @@
-use package::encryptor::{rot13, Encryptable};
+use package::cipher::rot13;
 // use crate::encryptor::Encryptable;
 use std::io;
 
