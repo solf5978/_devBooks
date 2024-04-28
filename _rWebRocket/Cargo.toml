@@ -1,5 +1,3 @@
-[workspace]
-members = ["encryptor"]
 [package]
 name = "_rWebRocket"
 version = "0.1.0"
