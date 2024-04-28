@@ -8,8 +8,5 @@ fn main() {
     io::stdin()
         .read_line(&mut user_input)
         .expect("Cannot read input");
-    println!(
-        "Your encrypted string: {}",
-        rot13::Rot13(user_input).encrypted_string()
-    );
+    println!("Your encrypted string: {}", user_input);
 }
