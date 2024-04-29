@@ -68,12 +68,16 @@ lazy_static! {
 }
 
 #[get("/user/<uuid>", rank = 1, format = "text/plain")]
-fn user(uuid: &str) -> String {
+fn user(uuid: &str) -> Option<&User> {
     let user = USERS.get(uuid);
     match user {
-        Some(u) => format!("Found user: {:?}", u),
-        None => String::from("User not found"),
+        Some(user) => Some(user),
+        None => None,
     }
+    // match user {
+    //     Some(u) => format!("Found user: {:?}", u),
+    //     None => String::from("User not found"),
+    // }
 }
 
 impl<'r> Responder<'r, 'r> for &'r User {
@@ -89,7 +93,7 @@ impl<'r> Responder<'r, 'r> for &'r User {
 }
 
 #[get("/users/<name_grade>?<filters..>")]
-fn users(name_grade: NameGrade, filters: Option<Filters>) -> String {
+fn users(name_grade: NameGrade, filters: Option<Filters>) -> Option<NewUser> {
     let users: Vec<&User> = USERS
         .values()
         .filter(|user| user.name.contains(&name_grade.name) && user.grade == name_grade.grade)
@@ -101,14 +105,19 @@ fn users(name_grade: NameGrade, filters: Option<Filters>) -> String {
             }
         })
         .collect();
-    if users.is_empty() {
-        String::from("No user found")
+    // if users.is_empty() {
+    //     String::from("No user found")
+    // } else {
+    //     users
+    //         .iter()
+    //         .map(|u| format!("{:?}", u))
+    //         .collect::<Vec<String>>()
+    //         .join(",")
+    // }
+    if users.len() > 0 {
+        Some(NewUser(users))
     } else {
-        users
-            .iter()
-            .map(|u| format!("{:?}", u))
-            .collect::<Vec<String>>()
-            .join(",")
+        None
     }
 }
 
