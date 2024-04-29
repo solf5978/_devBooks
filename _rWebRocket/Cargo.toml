@@ -1,4 +1,4 @@
-workspace = { members = ["01hello_world", "02complex_program", "03package", "04hello_rocket", "05hello_rocket_async", "06req_res"] }
+workspace = { members = ["01hello_world", "02complex_program", "03package", "04hello_rocket", "05hello_rocket_async", "06req_res", "07route_handlers"] }
 [package]
 name = "_rWebRocket"
 version = "0.1.0"
