@@ -80,6 +80,7 @@ impl<'r> Responder<'r, 'r> for &'r User {
     fn respond_to(self, request: &'r rocket::Request<'_>) -> response::Result<'r> {
         let user = format!("Found user: {:?}", self);
         Response::build()
+            // std::io::Cursor has already implemented tokio::io::{AsyncRead, AsyncSeek} traits
             .sized_body(user.len(), Cursor::new(user))
             .raw_header("X-USER-ID", self.uuid.to_string())
             .header(ContentType::Plain)
@@ -108,6 +109,23 @@ fn users(name_grade: NameGrade, filters: Option<Filters>) -> String {
             .map(|u| format!("{:?}", u))
             .collect::<Vec<String>>()
             .join(",")
+    }
+}
+
+struct NewUser<'a>(Vec<&'a User>);
+
+impl<'r> Responder<'r, 'r> for NewUser<'r> {
+    fn respond_to(self, request: &'r rocket::Request<'_>) -> response::Result<'r> {
+        let user = self
+            .0
+            .iter()
+            .map(|u| format!("{:?}", u))
+            .collect::<Vec<String>>()
+            .join(",");
+        Response::build()
+            .sized_body(user.len(), Cursor::new(user))
+            .header(ContentType::Plain)
+            .ok()
     }
 }
 
