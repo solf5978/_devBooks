@@ -2,9 +2,12 @@
 extern crate rocket;
 
 use lazy_static::lazy_static;
+use rocket::http::ContentType;
 use rocket::request::FromParam;
+use rocket::response::{self, Responder, Response};
 use rocket::{Build, Rocket};
 use std::collections::HashMap;
+use std::io::Cursor;
 use std::vec::Vec;
 
 #[derive(FromForm)]
@@ -70,6 +73,17 @@ fn user(uuid: &str) -> String {
     match user {
         Some(u) => format!("Found user: {:?}", u),
         None => String::from("User not found"),
+    }
+}
+
+impl<'r> Responder<'r, 'r> for &'r User {
+    fn respond_to(self, request: &'r rocket::Request<'_>) -> response::Result<'r> {
+        let user = format!("Found user: {:?}", self);
+        Response::build()
+            .sized_body(user.len(), Cursor::new(user))
+            .raw_header("X-USER-ID", self.uuid.to_string())
+            .header(ContentType::Plain)
+            .ok()
     }
 }
 
