@@ -1,7 +1,8 @@
 #[macro_use]
 extern crate rocket;
 
-use rocket::{Build, Rocket};z
+use lazy_static::lazy_static;
+use rocket::{Build, Rocket};
 use std::collections::HashMap;
 
 struct Filters {
@@ -10,7 +11,7 @@ struct Filters {
 }
 
 #[derive(Debug)]
-struct User{
+struct User {
     uuid: String,
     name: String,
     age: u8,
@@ -18,16 +19,28 @@ struct User{
     active: bool,
 }
 
-static USERS: HashMap<&str, User> = {
-    let map = HashMap::new();
-    map.insert(
-        "UUID_1",
-        User {
-            uuid: String::from("UUID_1"),
-            name: String::from("Hello Rocket"),
-            age: 10,
-            grade: 1,
-            active: true,
-        },
-    );
+lazy_static! {
+    static ref USERS: HashMap<&'static str, User> = {
+        let mut map = HashMap::new();
+        map.insert(
+            "UUID",
+            User {
+                uuid: "UUID".to_string(),
+                name: "Name".to_string(),
+                age: 18,
+                grade: 1,
+                active: true,
+            },
+        );
+        map
+    };
+}
+
+#[get("/user/<uuid>", rank = 1, format = "text/plain")]
+fn user(uuid: &str) -> String {
+    let user = USERS.get(uuid);
+    match user {
+        Some(u) => format!("Found user {:?}", u),
+        None => String::from("User not found"),
+    }
 }
