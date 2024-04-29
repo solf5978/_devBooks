@@ -3,8 +3,8 @@ extern crate rocket;
 
 use lazy_static::lazy_static;
 use rocket::http::ContentType;
-use rocket::request::FromParam;
-use rocket::response::{self, Responder, Response};
+use rocket::request::{FromParam, Request};
+use rocket::response::{self, status::NotFound, Responder, Response};
 use rocket::{Build, Rocket};
 use std::collections::HashMap;
 use std::io::Cursor;
@@ -41,6 +41,13 @@ impl<'r> FromParam<'r> for NameGrade<'r> {
     }
 }
 
+fn default_response<'r>() -> response::Response<'r> {
+    Response::build()
+        .header(ContentType::Plain)
+        .raw_header("X-CUSTOM-ID", "CUSTOM")
+        .finalize()
+}
+
 #[derive(Debug)]
 struct User {
     uuid: String,
@@ -48,6 +55,37 @@ struct User {
     age: u8,
     grade: u8,
     active: bool,
+}
+
+impl<'r> Responder<'r, 'r> for &'r User {
+    fn respond_to(self, _: &'r Request<'_>) -> response::Result<'r> {
+        let base_response = default_response();
+        let user = format!("Found user: {:?}", self);
+        Response::build()
+            .sized_body(user.len(), Cursor::new(user))
+            .raw_header("X-USER-ID", self.uuid.to_string())
+            .merge(base_response)
+            .ok()
+    }
+}
+
+struct NewUser<'a>(Vec<&'a User>);
+
+impl<'r> Responder<'r, 'r> for NewUser<'r> {
+    fn respond_to(self, _: &'r Request<'_>) -> response::Result<'r> {
+        let base_response = default_response();
+        let user = self
+            .0
+            .iter()
+            .map(|u| format!("{:?}", u))
+            .collect::<Vec<String>>()
+            .join(",");
+        Response::build()
+            .sized_body(user.len(), Cursor::new(user))
+            .raw_header("X-CUSTOM-ID", "USERS")
+            .join(base_response)
+            .ok()
+    }
 }
 
 lazy_static! {
@@ -68,28 +106,9 @@ lazy_static! {
 }
 
 #[get("/user/<uuid>", rank = 1, format = "text/plain")]
-fn user(uuid: &str) -> Option<&User> {
+fn user(uuid: &str) -> Result<&User, NotFound<&str>> {
     let user = USERS.get(uuid);
-    match user {
-        Some(user) => Some(user),
-        None => None,
-    }
-    // match user {
-    //     Some(u) => format!("Found user: {:?}", u),
-    //     None => String::from("User not found"),
-    // }
-}
-
-impl<'r> Responder<'r, 'r> for &'r User {
-    fn respond_to(self, request: &'r rocket::Request<'_>) -> response::Result<'r> {
-        let user = format!("Found user: {:?}", self);
-        Response::build()
-            // std::io::Cursor has already implemented tokio::io::{AsyncRead, AsyncSeek} traits
-            .sized_body(user.len(), Cursor::new(user))
-            .raw_header("X-USER-ID", self.uuid.to_string())
-            .header(ContentType::Plain)
-            .ok()
-    }
+    user.ok_or(NotFound("User not found"))
 }
 
 #[get("/users/<name_grade>?<filters..>")]
@@ -105,36 +124,10 @@ fn users(name_grade: NameGrade, filters: Option<Filters>) -> Option<NewUser> {
             }
         })
         .collect();
-    // if users.is_empty() {
-    //     String::from("No user found")
-    // } else {
-    //     users
-    //         .iter()
-    //         .map(|u| format!("{:?}", u))
-    //         .collect::<Vec<String>>()
-    //         .join(",")
-    // }
-    if users.len() > 0 {
-        Some(NewUser(users))
-    } else {
+    if users.is_empty() {
         None
-    }
-}
-
-struct NewUser<'a>(Vec<&'a User>);
-
-impl<'r> Responder<'r, 'r> for NewUser<'r> {
-    fn respond_to(self, request: &'r rocket::Request<'_>) -> response::Result<'r> {
-        let user = self
-            .0
-            .iter()
-            .map(|u| format!("{:?}", u))
-            .collect::<Vec<String>>()
-            .join(",");
-        Response::build()
-            .sized_body(user.len(), Cursor::new(user))
-            .header(ContentType::Plain)
-            .ok()
+    } else {
+        Some(NewUser(users))
     }
 }
 
