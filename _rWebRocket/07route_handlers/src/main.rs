@@ -2,13 +2,22 @@
 extern crate rocket;
 
 use lazy_static::lazy_static;
+use rocket::fs::{relative, NamedFile};
 use rocket::http::ContentType;
 use rocket::request::{FromParam, Request};
 use rocket::response::{self, status::NotFound, Responder, Response};
 use rocket::{Build, Rocket};
 use std::collections::HashMap;
 use std::io::Cursor;
+use std::path::Path;
 use std::vec::Vec;
+
+#[get("/favicon.png")]
+async fn favicon() -> NamedFile {
+    NamedFile::open(Path::new(relative!("static")).join("favicon.png"))
+        .await
+        .unwrap()
+}
 
 #[derive(FromForm)]
 struct Filters {
@@ -106,11 +115,14 @@ lazy_static! {
 }
 
 #[get("/user/<uuid>", rank = 1, format = "text/plain")]
-fn user(uuid: &str) -> Result<&User, NotFound<&str>> {
-    let user = USERS.get(uuid);
-    user.ok_or(NotFound("User not found"))
+fn user(uuid: &str) -> Option<&User> {
+    USERS.get(uuid)
 }
 
+#[catch(404)]
+fn not_found(req: &Request) -> String {
+    format!("Cannot find this page {}.", req.uri())
+}
 #[get("/users/<name_grade>?<filters..>")]
 fn users(name_grade: NameGrade, filters: Option<Filters>) -> Option<NewUser> {
     let users: Vec<&User> = USERS
