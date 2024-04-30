@@ -3,7 +3,7 @@ extern crate rocket;
 
 use lazy_static::lazy_static;
 use rocket::fs::{relative, NamedFile};
-use rocket::http::ContentType;
+use rocket::http::{ContentType, Status};
 use rocket::request::{FromParam, Request};
 use rocket::response::{self, status::NotFound, Responder, Response};
 use rocket::{Build, Rocket};
@@ -119,12 +119,8 @@ fn user(uuid: &str) -> Option<&User> {
     USERS.get(uuid)
 }
 
-#[catch(404)]
-fn not_found(req: &Request) -> String {
-    format!("Cannot find this page {}.", req.uri())
-}
 #[get("/users/<name_grade>?<filters..>")]
-fn users(name_grade: NameGrade, filters: Option<Filters>) -> Option<NewUser> {
+fn users(name_grade: NameGrade, filters: Option<Filters>) -> Result<NewUser, Status> {
     let users: Vec<&User> = USERS
         .values()
         .filter(|user| user.name.contains(&name_grade.name) && user.grade == name_grade.grade)
@@ -137,13 +133,25 @@ fn users(name_grade: NameGrade, filters: Option<Filters>) -> Option<NewUser> {
         })
         .collect();
     if users.is_empty() {
-        None
+        Err(Status::Forbidden)
     } else {
-        Some(NewUser(users))
+        Ok(NewUser(users))
     }
+}
+
+#[catch(403)]
+fn forbidden(req: &Request) -> String {
+    format!("Forbidden to access {}.", req.uri())
+}
+
+#[catch(404)]
+fn not_found(req: &Request) -> String {
+    format!("Cannot find this page {}.", req.uri())
 }
 
 #[launch]
 fn rocket() -> Rocket<Build> {
-    rocket::build().mount("/", routes![user, users])
+    rocket::build()
+        .mount("/", routes![user, users, favicon])
+        .register("/", catchers![not_found, forbidden])
 }
