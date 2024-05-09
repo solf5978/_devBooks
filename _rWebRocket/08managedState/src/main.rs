@@ -10,6 +10,7 @@ use rocket::{Build, Rocket};
 use std::collections::HashMap;
 use std::io::Cursor;
 use std::path::Path;
+use std::sync::atomic::AtomicU64;
 use std::vec::Vec;
 
 #[derive(FromForm)]
@@ -147,6 +148,10 @@ fn not_found(req: &Request) -> String {
 #[catch(403)]
 fn forbidden(req: &Request) -> String {
     format!("Access forbidden {}.", req.uri())
+}
+
+struct VisitorCounter {
+    visitor: AtomicU64,
 }
 
 #[launch]
